@@ -1,0 +1,967 @@
+2024-08-30 18:43:20,756   INFO  **********************Start logging**********************
+2024-08-30 18:43:20,756   INFO  CUDA_VISIBLE_DEVICES=ALL
+2024-08-30 18:43:20,756   INFO  Training with a single process
+2024-08-30 18:43:20,756   INFO  cfg_file         ./cfgs/sparsedet_models/sparsedet_nuscenes_3D.yaml
+2024-08-30 18:43:20,756   INFO  batch_size       1
+2024-08-30 18:43:20,756   INFO  epochs           20
+2024-08-30 18:43:20,756   INFO  workers          4
+2024-08-30 18:43:20,756   INFO  extra_tag        default
+2024-08-30 18:43:20,756   INFO  ckpt             None
+2024-08-30 18:43:20,756   INFO  pretrained_model None
+2024-08-30 18:43:20,756   INFO  launcher         none
+2024-08-30 18:43:20,756   INFO  tcp_port         18888
+2024-08-30 18:43:20,756   INFO  sync_bn          False
+2024-08-30 18:43:20,756   INFO  fix_random_seed  False
+2024-08-30 18:43:20,756   INFO  ckpt_save_interval 1
+2024-08-30 18:43:20,756   INFO  local_rank       0
+2024-08-30 18:43:20,756   INFO  max_ckpt_save_num 30
+2024-08-30 18:43:20,756   INFO  merge_all_iters_to_one_epoch False
+2024-08-30 18:43:20,756   INFO  set_cfgs         None
+2024-08-30 18:43:20,756   INFO  max_waiting_mins 0
+2024-08-30 18:43:20,756   INFO  start_epoch      0
+2024-08-30 18:43:20,756   INFO  num_epochs_to_eval 0
+2024-08-30 18:43:20,756   INFO  save_to_file     False
+2024-08-30 18:43:20,756   INFO  use_tqdm_to_record False
+2024-08-30 18:43:20,756   INFO  logger_iter_interval 50
+2024-08-30 18:43:20,756   INFO  ckpt_save_time_interval 300
+2024-08-30 18:43:20,756   INFO  wo_gpu_stat      False
+2024-08-30 18:43:20,756   INFO  use_amp          False
+2024-08-30 18:43:20,756   INFO  eval_map         False
+2024-08-30 18:43:20,756   INFO  dataset          nuscenes
+2024-08-30 18:43:20,756   INFO  root_dir         ../
+2024-08-30 18:43:20,756   INFO  output_dir       output
+2024-08-30 18:43:20,756   INFO  cfg.ROOT_DIR: /home/public_C/liulin/workspace/SparseDet
+2024-08-30 18:43:20,757   INFO  cfg.LOCAL_RANK: 0
+2024-08-30 18:43:20,757   INFO  cfg.CLASS_NAMES: ['car', 'truck', 'construction_vehicle', 'bus', 'trailer', 'barrier', 'motorcycle', 'bicycle', 'pedestrian', 'traffic_cone']
+2024-08-30 18:43:20,757   INFO  ----------- DATA_CONFIG -----------
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATASET: NuScenesDataset
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_PATH: /home/public_C/liulin/workspace/SparseDet/data/nuscenes
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.VERSION: v1.0-mini
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.MAX_SWEEPS: 10
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.PRED_VELOCITY: True
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.SET_NAN_VELOCITY_TO_ZEROS: True
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.FILTER_MIN_POINTS_IN_GT: 1
+2024-08-30 18:43:20,757   INFO  ----------- DATA_SPLIT -----------
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_SPLIT.train: train
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_SPLIT.test: val
+2024-08-30 18:43:20,757   INFO  ----------- INFO_PATH -----------
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.INFO_PATH.train: ['nuscenes_infos_10sweeps_train.pkl']
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.INFO_PATH.test: ['nuscenes_infos_10sweeps_val.pkl']
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.POINT_CLOUD_RANGE: [-54.0, -54.0, -5.0, 54.0, 54.0, 3.0]
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.BALANCED_RESAMPLING: True
+2024-08-30 18:43:20,757   INFO  ----------- DATA_AUGMENTOR -----------
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_AUGMENTOR.DISABLE_AUG_LIST: ['placeholder']
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_AUGMENTOR.AUG_CONFIG_LIST: [{'NAME': 'gt_sampling', 'DB_INFO_PATH': ['nuscenes_dbinfos_10sweeps_withvelo.pkl'], 'PREPARE': {'filter_by_min_points': ['car:5', 'truck:5', 'construction_vehicle:5', 'bus:5', 'trailer:5', 'barrier:5', 'motorcycle:5', 'bicycle:5', 'pedestrian:5', 'traffic_cone:5']}, 'SAMPLE_GROUPS': ['car:2', 'truck:3', 'construction_vehicle:7', 'bus:4', 'trailer:6', 'barrier:2', 'motorcycle:6', 'bicycle:6', 'pedestrian:2', 'traffic_cone:2'], 'NUM_POINT_FEATURES': 5, 'DATABASE_WITH_FAKELIDAR': False, 'REMOVE_EXTRA_WIDTH': [0.0, 0.0, 0.0], 'LIMIT_WHOLE_SCENE': True}, {'NAME': 'random_world_flip', 'ALONG_AXIS_LIST': ['x', 'y']}, {'NAME': 'random_world_rotation', 'WORLD_ROT_ANGLE': [-0.78539816, 0.78539816]}, {'NAME': 'random_world_scaling', 'WORLD_SCALE_RANGE': [0.9, 1.1]}, {'NAME': 'random_world_translation', 'NOISE_TRANSLATE_STD': [0.5, 0.5, 0.5]}]
+2024-08-30 18:43:20,757   INFO  ----------- POINT_FEATURE_ENCODING -----------
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.encoding_type: absolute_coordinates_encoding
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.used_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp']
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.POINT_FEATURE_ENCODING.src_feature_list: ['x', 'y', 'z', 'intensity', 'timestamp']
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG.DATA_PROCESSOR: [{'NAME': 'mask_points_and_boxes_outside_range', 'REMOVE_OUTSIDE_BOXES': True}, {'NAME': 'shuffle_points', 'SHUFFLE_ENABLED': {'train': True, 'test': True}}, {'NAME': 'transform_points_to_voxels', 'VOXEL_SIZE': [0.075, 0.075, 0.2], 'MAX_POINTS_PER_VOXEL': 10, 'MAX_NUMBER_OF_VOXELS': {'train': 120000, 'test': 160000}}]
+2024-08-30 18:43:20,757   INFO  cfg.DATA_CONFIG._BASE_CONFIG_: cfgs/dataset_configs/nuscenes_dataset.yaml
+2024-08-30 18:43:20,757   INFO  ----------- MODEL -----------
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.NAME: TransFusion
+2024-08-30 18:43:20,757   INFO  ----------- VFE -----------
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.VFE.NAME: DynamicVoxelVFE
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.VFE.WITH_DISTANCE: False
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.VFE.USE_ABSLOTE_XYZ: True
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.VFE.USE_NORM: True
+2024-08-30 18:43:20,757   INFO  cfg.MODEL.VFE.NUM_FILTERS: [128, 128]
+2024-08-30 18:43:20,758   INFO  ----------- BACKBONE_3D -----------
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.NAME: SparseDet
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.SED_FEATURE_DIM: 128
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.SED_NUM_LAYERS: 6
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.SED_NUM_SBB: [2, 1, 1]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.SED_DOWN_STRIDE: [1, 2, 2]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.SED_DOWN_KERNEL_SIZE: [3, 3, 3]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD_FEATURE_DIM: 128
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD_NUM_LAYERS: 1
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD_NUM_SBB: [4, 4, 4]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD_DOWN_STRIDE: [1, 2, 2]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD_DOWN_KERNEL_SIZE: [3, 3, 3]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.AFD: True
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.FG_THRESHOLD: 0.4
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.FEATMAP_STRIDE: 2
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.DETACH_FEATURE: True
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.GREOUP_POOLING_KERNEL_SIZE: [9, 15, 5, 5]
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.BACKBONE_3D.GROUP_CLASS_NAMES: [['car', 'truck', 'construction_vehicle'], ['bus', 'trailer'], ['barrier', 'motorcycle', 'bicycle', 'pedestrian', 'traffic_cone']]
+2024-08-30 18:43:20,758   INFO  ----------- DENSE_HEAD -----------
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NAME: SparseTransFusionHead
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.CLASS_AGNOSTIC: False
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.USE_BIAS_BEFORE_NORM: False
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.USE_TENSOR_MASK: True
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.INPUT_FEATURES: 128
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NUM_PROPOSALS: 200
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.HIDDEN_CHANNEL: 128
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NUM_CLASSES: 10
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NUM_HEADS: 8
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NMS_KERNEL_SIZE: 3
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.FFN_CHANNEL: 256
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.DROPOUT: 0.1
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.BN_MOMENTUM: 0.1
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.ACTIVATION: relu
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.NUM_HM_CONV: 2
+2024-08-30 18:43:20,758   INFO  ----------- SEPARATE_HEAD_CFG -----------
+2024-08-30 18:43:20,758   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_ORDER: ['center', 'height', 'dim', 'rot', 'vel']
+2024-08-30 18:43:20,758   INFO  ----------- HEAD_DICT -----------
+2024-08-30 18:43:20,758   INFO  ----------- center -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.center.out_channels: 2
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.center.num_conv: 2
+2024-08-30 18:43:20,759   INFO  ----------- height -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.height.out_channels: 1
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.height.num_conv: 2
+2024-08-30 18:43:20,759   INFO  ----------- dim -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.dim.out_channels: 3
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.dim.num_conv: 2
+2024-08-30 18:43:20,759   INFO  ----------- rot -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.rot.out_channels: 2
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.rot.num_conv: 2
+2024-08-30 18:43:20,759   INFO  ----------- vel -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.vel.out_channels: 2
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.SEPARATE_HEAD_CFG.HEAD_DICT.vel.num_conv: 2
+2024-08-30 18:43:20,759   INFO  ----------- TARGET_ASSIGNER_CONFIG -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.DATASET: nuScenes
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.FEATURE_MAP_STRIDE: 8
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.GAUSSIAN_OVERLAP: 0.1
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.MIN_RADIUS: 2
+2024-08-30 18:43:20,759   INFO  ----------- HUNGARIAN_ASSIGNER -----------
+2024-08-30 18:43:20,759   INFO  ----------- cls_cost -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.HUNGARIAN_ASSIGNER.cls_cost.gamma: 2.0
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.HUNGARIAN_ASSIGNER.cls_cost.alpha: 0.25
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.HUNGARIAN_ASSIGNER.cls_cost.weight: 0.15
+2024-08-30 18:43:20,759   INFO  ----------- reg_cost -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.HUNGARIAN_ASSIGNER.reg_cost.weight: 0.25
+2024-08-30 18:43:20,759   INFO  ----------- iou_cost -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.TARGET_ASSIGNER_CONFIG.HUNGARIAN_ASSIGNER.iou_cost.weight: 0.25
+2024-08-30 18:43:20,759   INFO  ----------- LOSS_CONFIG -----------
+2024-08-30 18:43:20,759   INFO  ----------- LOSS_WEIGHTS -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.cls_weight: 1.0
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.bbox_weight: 0.25
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.hm_weight: 1.0
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_WEIGHTS.code_weights: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.2, 0.2]
+2024-08-30 18:43:20,759   INFO  ----------- LOSS_CLS -----------
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_CLS.use_sigmoid: True
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_CLS.gamma: 2.0
+2024-08-30 18:43:20,759   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_CLS.alpha: 0.25
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_IOU: False
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.LOSS_CONFIG.LOSS_IOU_REG: False
+2024-08-30 18:43:20,760   INFO  ----------- POST_PROCESSING -----------
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.POST_PROCESSING.SCORE_THRESH: 0.0
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.POST_PROCESSING.POST_CENTER_RANGE: [-61.2, -61.2, -10.0, 61.2, 61.2, 10.0]
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.POST_PROCESSING.USE_IOU_TO_RECTIFY_SCORE: False
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.POST_PROCESSING.IOU_RECTIFIER: [0.5]
+2024-08-30 18:43:20,760   INFO  ----------- NMS_CONFIG -----------
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.NMS_CONFIG.NMS_TYPE: nms_gpu
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.NMS_CONFIG.NMS_THRESH: 0.2
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.NMS_CONFIG.NMS_PRE_MAXSIZE: 1000
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.NMS_CONFIG.NMS_POST_MAXSIZE: 100
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.DENSE_HEAD.NMS_CONFIG.SCORE_THRES: 0.0
+2024-08-30 18:43:20,760   INFO  ----------- POST_PROCESSING -----------
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.POST_PROCESSING.RECALL_THRESH_LIST: [0.3, 0.5, 0.7]
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.POST_PROCESSING.SCORE_THRESH: 0.1
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.POST_PROCESSING.OUTPUT_RAW_SCORE: False
+2024-08-30 18:43:20,760   INFO  cfg.MODEL.POST_PROCESSING.EVAL_METRIC: kitti
+2024-08-30 18:43:20,760   INFO  ----------- OPTIMIZATION -----------
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.BATCH_SIZE_PER_GPU: 1
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.NUM_EPOCHS: 20
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.OPTIMIZER: adam_onecycle
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.LR: 0.003
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.WEIGHT_DECAY: 0.05
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.MOMENTUM: 0.9
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.MOMS: [0.95, 0.85]
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.PCT_START: 0.4
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.DIV_FACTOR: 10
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.DECAY_STEP_LIST: [35, 45]
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.LR_DECAY: 0.1
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.LR_CLIP: 1e-07
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.LR_WARMUP: False
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.WARMUP_EPOCH: 1
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.GRAD_NORM_CLIP: 10
+2024-08-30 18:43:20,760   INFO  cfg.OPTIMIZATION.LOSS_SCALE_FP16: 32
+2024-08-30 18:43:20,760   INFO  ----------- HOOK -----------
+2024-08-30 18:43:20,760   INFO  ----------- DisableAugmentationHook -----------
+2024-08-30 18:43:20,760   INFO  cfg.HOOK.DisableAugmentationHook.DISABLE_AUG_LIST: ['gt_sampling']
+2024-08-30 18:43:20,761   INFO  cfg.HOOK.DisableAugmentationHook.NUM_LAST_EPOCHS: 4
+2024-08-30 18:43:20,761   INFO  cfg.TAG: sparsedet_nuscenes_3D
+2024-08-30 18:43:20,761   INFO  cfg.EXP_GROUP_PATH: cfgs/sparsedet_models
+2024-08-30 18:43:20,761   INFO  cfg.OUTPUT_DIR: /home/public_C/liulin/workspace/SparseDet/tools/output
+2024-08-30 18:43:20,767   INFO  ----------- Create dataloader & network & optimizer -----------
+2024-08-30 18:43:20,821   INFO  Database filter by min points car: 4082 => 3303
+2024-08-30 18:43:20,821   INFO  Database filter by min points truck: 451 => 412
+2024-08-30 18:43:20,821   INFO  Database filter by min points construction_vehicle: 174 => 161
+2024-08-30 18:43:20,821   INFO  Database filter by min points bus: 337 => 309
+2024-08-30 18:43:20,821   INFO  Database filter by min points trailer: 59 => 57
+2024-08-30 18:43:20,821   INFO  Database filter by min points barrier: 1851 => 1741
+2024-08-30 18:43:20,821   INFO  Database filter by min points motorcycle: 179 => 149
+2024-08-30 18:43:20,821   INFO  Database filter by min points bicycle: 147 => 136
+2024-08-30 18:43:20,822   INFO  Database filter by min points pedestrian: 3068 => 2799
+2024-08-30 18:43:20,822   INFO  Database filter by min points traffic_cone: 773 => 635
+2024-08-30 18:43:20,822   INFO  Loading NuScenes dataset
+2024-08-30 18:43:20,852   INFO  Total samples for NuScenes dataset: 323
+2024-08-30 18:43:20,856   INFO  Total samples after balanced resampling: 1630
+2024-08-30 18:43:23,257   INFO  ----------- Model TransFusion created, param count: 42717665 -----------
+2024-08-30 18:43:23,257   INFO  TransFusion(
+  (vfe): DynamicVoxelVFE(
+    (pfn_layers): ModuleList(
+      (0): PFNLayerV2(
+        (linear): Linear(in_features=11, out_features=64, bias=False)
+        (norm): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (1): PFNLayerV2(
+        (linear): Linear(in_features=128, out_features=128, bias=False)
+        (norm): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+    )
+  )
+  (backbone_3d): SparseDet(
+    (stem): SparseSequential(
+      (0): SparseSequential(
+        (0): SubMConv3d(128, 16, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseBasicBlock3D(
+        (conv1): SubMConv3d(16, 16, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(16, 16, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (2): SparseBasicBlock3D(
+        (conv1): SubMConv3d(16, 16, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(16, 16, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (3): SparseSequential(
+        (0): SparseConv3d(16, 32, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (4): SparseBasicBlock3D(
+        (conv1): SubMConv3d(32, 32, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(32, 32, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (5): SparseBasicBlock3D(
+        (conv1): SubMConv3d(32, 32, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(32, 32, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (6): SparseSequential(
+        (0): SparseConv3d(32, 64, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (7): SparseBasicBlock3D(
+        (conv1): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (8): SparseBasicBlock3D(
+        (conv1): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (9): SparseBasicBlock3D(
+        (conv1): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (10): SparseBasicBlock3D(
+        (conv1): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (conv2): SubMConv3d(64, 64, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+      )
+      (11): SparseSequential(
+        (0): SparseConv3d(64, 128, kernel_size=[3, 3, 3], stride=[1, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (sed_layers): ModuleList(
+      (0): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (1): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (2): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (3): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (4): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (5): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock3D(
+              (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (transition): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d(128, 128, kernel_size=[3, 1, 1], stride=[2, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseSequential(
+        (0): SparseConv3d(128, 128, kernel_size=[3, 1, 1], stride=[2, 1, 1], padding=[0, 0, 0], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (cls_conv): SparseSequential(
+      (0): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+      (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): SubMConv2d(128, 3, kernel_size=[1, 1], stride=[1, 1], padding=[0, 0], dilation=[1, 1], output_padding=[0, 0], algo=ConvAlgo.MaskImplicitGemm)
+    )
+    (afd_layers): ModuleList(
+      (0): SEDLayer(
+        (encoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (1): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (2): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (3): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (1): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv2d(128, 128, kernel_size=[3, 3], stride=[2, 2], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (2): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (3): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (4): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (2): SparseSequential(
+            (0): SparseSequential(
+              (0): SparseConv2d(128, 128, kernel_size=[3, 3], stride=[2, 2], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (2): ReLU()
+            )
+            (1): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (2): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (3): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+            (4): SparseBasicBlock2D(
+              (conv1): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (conv2): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+              (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+        )
+        (decoder): ModuleList(
+          (0): SparseSequential(
+            (0): SparseInverseConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[0, 0], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+          (1): SparseSequential(
+            (0): SparseInverseConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[0, 0], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+            (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (decoder_norm): ModuleList(
+          (0): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+          (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (unsampling_block1): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseBasicBlock(
+        (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+        (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      )
+      (2): SparseBasicBlock(
+        (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+        (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      )
+    )
+    (unsampling_block2): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d(128, 128, kernel_size=[3, 3, 3], stride=[2, 2, 2], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+        (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseBasicBlock(
+        (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+        (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      )
+      (2): SparseBasicBlock(
+        (conv1): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (relu): ReLU()
+        (conv2): SubMConv3d(128, 128, kernel_size=[3, 3, 3], stride=[1, 1, 1], padding=[1, 1, 1], dilation=[1, 1, 1], output_padding=[0, 0, 0], algo=ConvAlgo.MaskImplicitGemm)
+        (bn2): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (map_to_bev_module): None
+  (pfe): None
+  (backbone_2d): None
+  (dense_head): SparseTransFusionHead(
+    (loss_cls): SigmoidFocalClassificationLoss()
+    (loss_bbox): L1Loss()
+    (loss_heatmap): GaussianFocalLoss()
+    (shared_conv): SparseConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], algo=ConvAlgo.MaskImplicitGemm)
+    (heatmap_head): SparseSequential(
+      (0): SubMConv2d(128, 128, kernel_size=[3, 3], stride=[1, 1], padding=[1, 1], dilation=[1, 1], output_padding=[0, 0], bias=False, algo=ConvAlgo.MaskImplicitGemm)
+      (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): SubMConv2d(128, 10, kernel_size=[1, 1], stride=[1, 1], padding=[0, 0], dilation=[1, 1], output_padding=[0, 0], algo=ConvAlgo.MaskImplicitGemm)
+    )
+    (class_encoding): Conv1d(10, 128, kernel_size=(1,), stride=(1,))
+    (decoder): TransformerDecoderLayer(
+      (self_attn): MultiheadAttention(
+        (out_proj): NonDynamicallyQuantizableLinear(in_features=128, out_features=128, bias=True)
+      )
+      (multihead_attn): MultiheadAttention(
+        (out_proj): NonDynamicallyQuantizableLinear(in_features=128, out_features=128, bias=True)
+      )
+      (linear1): Linear(in_features=128, out_features=256, bias=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+      (linear2): Linear(in_features=256, out_features=128, bias=True)
+      (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (norm3): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+      (dropout1): Dropout(p=0.1, inplace=False)
+      (dropout2): Dropout(p=0.1, inplace=False)
+      (dropout3): Dropout(p=0.1, inplace=False)
+      (self_posembed): PositionEmbeddingLearned(
+        (position_embedding_head): Sequential(
+          (0): Conv1d(2, 128, kernel_size=(1,), stride=(1,))
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Conv1d(128, 128, kernel_size=(1,), stride=(1,))
+        )
+      )
+      (cross_posembed): PositionEmbeddingLearned(
+        (position_embedding_head): Sequential(
+          (0): Conv1d(2, 128, kernel_size=(1,), stride=(1,))
+          (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Conv1d(128, 128, kernel_size=(1,), stride=(1,))
+        )
+      )
+    )
+    (prediction_head): SeparateHead(
+      (center): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 2, kernel_size=(1,), stride=(1,))
+      )
+      (height): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 1, kernel_size=(1,), stride=(1,))
+      )
+      (dim): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 3, kernel_size=(1,), stride=(1,))
+      )
+      (rot): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 2, kernel_size=(1,), stride=(1,))
+      )
+      (vel): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 2, kernel_size=(1,), stride=(1,))
+      )
+      (heatmap): Sequential(
+        (0): Sequential(
+          (0): Conv1d(128, 64, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU()
+        )
+        (1): Conv1d(64, 10, kernel_size=(1,), stride=(1,))
+      )
+    )
+  )
+  (point_head): None
+  (roi_head): None
+)
+2024-08-30 18:43:23,263   INFO  **********************Start training cfgs/sparsedet_models/sparsedet_nuscenes_3D(default)**********************
